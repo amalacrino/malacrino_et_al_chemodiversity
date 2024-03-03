@@ -6,7 +6,7 @@
 
 # Disclaimer
 
-This repository contains the main components used to process the raw data and to analyze it. Raw data is available at NCBI SRA under the BioProject number `XXXXXXXXX`.
+This repository contains the main components used to process the raw data and to analyze it. Raw data is available at NCBI SRA under the BioProject number `PRJNA1080585`.
 
 Our pipeline included:
 * nf-core/ampliseq v2.1.7 [https://github.com/nf-core/ampliseq/](https://github.com/nf-core/ampliseq/)
