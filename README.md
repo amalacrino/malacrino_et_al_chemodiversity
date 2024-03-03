@@ -16,6 +16,8 @@ Our pipeline included:
 
 # Data processing
 
+Run ampliseq
+
 ```bash
 nextflow run nf-core/ampliseq -r 2.7.1 -profile singularity \
 --input $INDIR \
@@ -37,6 +39,41 @@ nextflow run nf-core/ampliseq -r 2.7.1 -profile singularity \
 mafft --thread $NTHREADS ASV_seqs.fasta > asv_aligned.fasta
 
 FastTree -gtr -nt < asv_aligned.fasta > tree.tre
+```
+
+Build a phyloseq object
+
+```r
+library("phyloseq")
+library("Biostrings")
+
+creatPSobj <- function(mdata, asvtab, tax, tree, refseqs){
+  metadata <- read.table(mdata, sep = '\t', header = T, row.names = 1)
+  rownames(metadata) <- gsub('[-]', '.', rownames(metadata))
+  data <- read.table(asvtab, sep = '\t', header = T, row.names = 1)
+  tax <- read.table(tax, sep = '\t', header = T, row.names = 1)[,c(1:7)]
+  ref_tree <- ape::read.tree(tree) 
+  refseq <- read.table(refseqs, sep = '\t', header = T)[,c(1,10)]
+  seqs.vec <- refseq$sequence 
+  names(seqs.vec) <- refseq$ASV_ID
+  refseq <- DNAStringSet(seqs.vec)
+  ps <- phyloseq(sample_data(metadata),
+                 otu_table(data, taxa_are_rows = T),
+                 tax_table(as.matrix(tax)),
+                 phy_tree(ref_tree),
+                 refseq)
+  return(ps)
+}
+
+ps <- creatPSobj(mdata = "metadata.txt",
+                     asvtab = "ASV_table.tsv",
+                     tax = "ASV_tax.silva_138.tsv",
+                     tree = 'tree.tre',
+                     refseqs = "ASV_tax.silva_138.tsv")
+
+rm(list=setdiff(ls(), c("ps")))
+
+save.image(file = 'data.rds')
 ```
 
 ## Data analysis
