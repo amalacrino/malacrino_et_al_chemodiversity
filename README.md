@@ -10,6 +10,8 @@ This repository contains the main components used to process the raw data and to
 
 Our pipeline included:
 * nf-core/ampliseq v2.1.7 [https://github.com/nf-core/ampliseq/](https://github.com/nf-core/ampliseq/)
+* MAFFT [https://academic.oup.com/nar/article/30/14/3059/2904316](https://academic.oup.com/nar/article/30/14/3059/2904316)
+* FastTree [https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0009490](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0009490)
 * R v4.3.2 [https://www.R-project.org/](https://www.R-project.org/)
 
 # Data processing
